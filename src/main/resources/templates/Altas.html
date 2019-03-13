@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Registro de Citas</title>
+        <link rel="stylesheet" type="text/css" href="/css/Stylo.css" />
+        <!--CSS incluido con fullcalendar-->
+        <link rel="stylesheet" href="/css/fullcalendar.css">
+
+        <!--Libreria multiusos de Javascript-->
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <!--Plugin de jQuery para el elemento qTip
+        <script src="/js/jquery.qtip.min.js"></script>-->
+        <!--Libreria para manejar fechas, tiempos y zonas horarias-->
+        <script src="/js/moment.js"></script>
+        <!--Libreria para utilizar un calendario-->
+        <script src="/js/fullcalendar.js"></script>
+        <!--Javascript para cambiar el idioma de fullcalendar-->
+        <script src="/js/es.js"></script>
+
+        <!--Aqui va la "instancia" de fullcalendar, su configuracion y sus metodos-->
+        <script>
+            $(document).ready(function() {
+
+                $("#calendar").fullCalendar({
+                    height: "parent",
+                    navLinks: true,
+                    header: {
+                        left:   'title',
+                        center: 'month',
+                        right:  'today prev,next'
+                    },
+                    eventSources: ['/eventos'],
+
+                    eventMouseover: function (data, event, view) {
+
+                        tooltip = '<div class="tooltiptopicevent" style="width:auto;height:auto;background:#feb811;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">' +  data.description + '</div>';
+
+
+                        $("body").append(tooltip);
+                        $(this).mouseover(function (e) {
+                            $(this).css('z-index', 10000);
+                            $('.tooltiptopicevent').fadeIn('500');
+                            $('.tooltiptopicevent').fadeTo('10', 1.9);
+                        }).mousemove(function (e) {
+                            $('.tooltiptopicevent').css('top', e.pageY + 10);
+                            $('.tooltiptopicevent').css('left', e.pageX + 20);
+                        });
+
+
+                    },
+                    eventMouseout: function (data, event, view) {
+                        $(this).css('z-index', 8);
+
+                        $('.tooltiptopicevent').remove();
+
+                    }
+                })
+            });
+        </script>
+
+    </head>
+
+    <body>
+
+        <header>
+            <img src="/img/logo.png" id="imagen">
+            <h2>HOSPITAL JESUS MALVERDE</h2>
+            <hr>
+            <h3>REGISTRO DE CITAS</h3>
+        </header>
+        <br>
+
+        <section>
+                <form action="#" th:action="@{/registro}" th:object="${cita}" method="post">
+                    <table>
+                        <tr>
+                            <td>Paciente:</td>
+                            <td><input type="text" th:field="*{paciente}" /></td>
+                        </tr>
+
+                        <tr>
+                            <td>Doctor:</td>
+                            <td>
+                                <select th:field="*{doctor}">
+                                    <option th:each="doctor : ${doctores}" th:value="${doctor}" th:text="${doctor}"/>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Asunto: </td>
+                            <td><textarea th:field="*{asunto}" id="txtAsunto"></textarea></td>
+                        </tr>
+
+                        <tr>
+                            <td>Fecha: </td>
+                            <td><input type="date" th:field="*{fecha}"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>Hora: </td>
+                            <td><input type="time" th:field="*{hora}"/></td>
+                        </tr>
+
+                        <tr>
+                            <td><input type="submit" value="Hacer Cita"/> </td>
+                            <td><input type="reset" value="Reestablecer"/></td>
+                        </tr>
+                    </table>
+                </form>
+        </section>
+
+        <aside>
+            <div id="calendar"></div>
+        </aside>
+
+        <footer>
+            <h5>el 35% de</h5>
+            <h3>TODAS NUESTRAS OPERACIONES SON 100% EXITOSAS*</h3>
+        </footer>
+    </body>
+</html>
