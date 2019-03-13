@@ -75,7 +75,7 @@
                     <table>
                         <tr>
                             <td>Paciente:</td>
-                            <td><input type="text" th:field="*{paciente}" /></td>
+                            <td><input type="text" th:field="*{paciente}" required="required"/></td>
                         </tr>
 
                         <tr>
@@ -89,17 +89,17 @@
 
                         <tr>
                             <td>Asunto: </td>
-                            <td><textarea th:field="*{asunto}" id="txtAsunto"></textarea></td>
+                            <td><textarea th:field="*{asunto}" id="txtAsunto" required="required"></textarea></td>
                         </tr>
 
                         <tr>
                             <td>Fecha: </td>
-                            <td><input type="date" th:field="*{fecha}"/></td>
+                            <td><input type="date" th:field="*{fecha}" required="required"/></td>
                         </tr>
 
                         <tr>
                             <td>Hora: </td>
-                            <td><input type="time" th:field="*{hora}"/></td>
+                            <td><input type="time" th:field="*{hora}" required="required"/></td>
                         </tr>
 
                         <tr>
